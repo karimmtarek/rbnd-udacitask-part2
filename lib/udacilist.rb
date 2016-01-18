@@ -1,5 +1,4 @@
 class UdaciList
-  include UdaciListErrors
   attr_reader :title, :items
   TYPE = %w(todo event link)
 
@@ -15,7 +14,7 @@ class UdaciList
       @items.push EventItem.new(description, options) if type == "event"
       @items.push LinkItem.new(description, options) if type == "link"
     else
-      fail(InvalidItemType, "Unsupported item type: '#{type}'.")
+      fail(UdaciListErrors::InvalidItemType, "Unsupported item type: '#{type}'.")
     end
   end
 
@@ -23,16 +22,26 @@ class UdaciList
     if index <= @items.size
       @items.delete_at(index - 1)
     else
-      fail(IndexExceedsListSize, "Item with id: '#{index}' not found.")
+      fail(UdaciListErrors::IndexExceedsListSize, "Item with id: '#{index}' not found.")
     end
   end
 
   def all
-    puts "-" * @title.length
-    puts @title
-    puts "-" * @title.length
+    header
     @items.each_with_index do |item, position|
       puts "#{position + 1}) #{item.details}"
     end
+  end
+
+  def filter(type)
+    items.select { |item| item.type == type }
+  end
+
+  private
+
+  def header
+    puts "-" * @title.length
+    puts @title
+    puts "-" * @title.length
   end
 end

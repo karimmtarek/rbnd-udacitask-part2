@@ -1,6 +1,5 @@
 class TodoItem
   include Listable
-  include UdaciListErrors
   attr_reader :description, :due, :priority
   PRIORITY_VALUES = %(low medium high)
 
@@ -24,7 +23,7 @@ class TodoItem
     if PRIORITY_VALUES.include? priority
       @priority = options[:priority]
     else
-      fail(InvalidPriorityValue, "Invalid priority value: '#{priority}'.")
+      fail(UdaciListErrors::InvalidPriorityValue, "Invalid priority value: '#{priority}'.")
     end
   end
 end
