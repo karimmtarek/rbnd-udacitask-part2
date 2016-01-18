@@ -10,9 +10,9 @@ class UdaciList
   def add(type, description, options={})
     type = type.downcase
     if TYPE.include? type
-      @items.push TodoItem.new(description, options) if type == "todo"
-      @items.push EventItem.new(description, options) if type == "event"
-      @items.push LinkItem.new(description, options) if type == "link"
+      @items.push TodoItem.new(type, description, options) if type == "todo"
+      @items.push EventItem.new(type, description, options) if type == "event"
+      @items.push LinkItem.new(type, description, options) if type == "link"
     else
       fail(UdaciListErrors::InvalidItemType, "Unsupported item type: '#{type}'.")
     end
@@ -34,7 +34,11 @@ class UdaciList
   end
 
   def filter(type)
-    items.select { |item| item.type == type }
+    filtered_items = @items.select { |item| item.type == type }
+
+    filtered_items.each_with_index do |item, position|
+      puts "#{position + 1}) #{item.details}"
+    end
   end
 
   private
