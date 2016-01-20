@@ -4,6 +4,7 @@ require 'terminal-table'
 class UdaciList
   attr_reader :title, :items
   TYPE = %w(todo event link)
+  TBL_HEADINGS = ['#', 'Content', 'Details', 'Priority', 'Type']
 
   def initialize(options={})
     @title = options[:title] || "Untitled List"
@@ -33,19 +34,40 @@ class UdaciList
     print_header(title)
 
     rows = items.each_with_index.map do |item, position|
-      [position + 1, item.description, item.details, item.type]
+      tbl_row_values(position, item)
     end
 
-    puts print_table(headings: ['#', 'Content', 'Details', 'Type'], rows: rows)
+    puts print_table(headings: TBL_HEADINGS, rows: rows)
   end
 
   def filter(item_type)
     rows = items
             .select { |item| item.type == item_type }
             .each_with_index
-            .map { |item, position| [position + 1, item.description, item.details, item.type] }
+            .map { |item, position| tbl_row_values(position, item) }
 
-    puts print_table(headings: ['#', 'Content', 'Details', 'Type'], rows: rows)
+    puts print_table(headings: TBL_HEADINGS, rows: rows)
+  end
+
+  def find(item_number:)
+    if item_number <= items.size
+      item = items[item_number - 1]
+      rows = []
+      rows << tbl_row_values(0, item)
+
+      puts print_table(headings: TBL_HEADINGS, rows: rows)
+    else
+      fail(UdaciListErrors::IndexExceedsListSize, "Item with number: '#{item_number}' not found.")
+    end
+  end
+
+  def update_priority(item_number:, priority:)
+    if item_number <= items.size
+      item = items[item_number - 1]
+      item.priority = priority
+    else
+      fail(UdaciListErrors::IndexExceedsListSize, "Item with number: '#{item_number}' not found.")
+    end
   end
 
   private
@@ -56,5 +78,16 @@ class UdaciList
 
   def print_table(headings:, rows:)
     Terminal::Table.new(headings: headings, rows: rows)
+  end
+
+  def format_priority(priority)
+    return " ⇧".colorize(:red) if priority == "high"
+    return " ⇨".colorize(:magenta) if priority == "medium"
+    return " ⇩".colorize(:green) if priority == "low"
+    return "" unless priority
+  end
+
+  def tbl_row_values(position, item)
+    [position + 1, item.description, item.details, {value: format_priority(item.priority), alignment: :center}, item.type]
   end
 end

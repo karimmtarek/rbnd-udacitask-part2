@@ -1,7 +1,7 @@
 class TodoItem
   include Listable
-  attr_reader :description, :due, :priority, :type
-  PRIORITY_VALUES = %(low medium high)
+  attr_reader :description, :due, :type
+  attr_accessor :priority
 
   def initialize(type, description, options={})
     @description = description
@@ -11,18 +11,6 @@ class TodoItem
   end
 
   def details
-    "due:  #{format_date(start_or_due_date: due)}"
-  end
-
-  private
-
-  def fetch_priority(options)
-    priority = options[:priority].downcase
-
-    if PRIORITY_VALUES.include? priority
-      @priority = options[:priority]
-    else
-      fail(UdaciListErrors::InvalidPriorityValue, "Invalid priority value: '#{priority}'.")
-    end
+    "due: #{format_date(start_or_due_date: due)}"
   end
 end

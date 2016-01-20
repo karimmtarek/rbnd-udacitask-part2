@@ -1,7 +1,5 @@
 module Listable
-  # def format_description(description, type)
-  #   "[#{type}] #{description.ljust(30)}"
-  # end
+  PRIORITY_VALUES = %(low medium high)
 
   def format_date(start_or_due_date: nil, end_date: nil)
     dates = start_or_due_date.strftime("%D") if start_or_due_date
@@ -9,17 +7,18 @@ module Listable
     dates || no_date
   end
 
-  def format_priority(priority)
-    value = " ⇧".colorize(:red) if priority == "high"
-    value = " ⇨".colorize(:magenta) if priority == "medium"
-    value = " ⇩".colorize(:green) if priority == "low"
-    value = "" unless priority
-
-    value
-  end
-
   def no_date
     return "No due date" if self.type == "todo"
     "N/A"
+  end
+
+  def fetch_priority(options)
+    priority = options[:priority].downcase
+
+    if PRIORITY_VALUES.include? priority
+      @priority = options[:priority]
+    else
+      fail(UdaciListErrors::InvalidPriorityValue, "Invalid priority value: '#{priority}'.")
+    end
   end
 end
