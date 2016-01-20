@@ -8,11 +8,13 @@ class LinkItem
     @type = type
   end
 
-  def format_name
-    @site_name ? @site_name : ""
+  def details
+    "Site name: #{format_name}"
   end
 
-  def details
-    format_description(description, type) + "site name: " + format_name
+  private
+
+  def format_name
+    @site_name ? @site_name : ""
   end
 end

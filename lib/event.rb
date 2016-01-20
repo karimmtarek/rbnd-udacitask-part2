@@ -10,8 +10,6 @@ class EventItem
   end
 
   def details
-    format_description(description, type) +
-      "event dates: " +
-      format_date(start_or_due_date: start_date, end_date: end_date)
+    "event dates: #{format_date(start_or_due_date: start_date, end_date: end_date)}"
   end
 end
