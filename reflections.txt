@@ -1,13 +1,25 @@
 # What you added to Udacitask 2.0
 # -------------------------------------------------------
 1. What is the gem of your choice and how did you use it?
+I used:
+  – 'artii' gem: to display the list name as an ascii art
+  – 'terminal-table' gem: to display the list as a table
+
 2. Describe the 2 features you added to the project.
-  a) Feature 1...
-  b) Feature 2...
+  a) Feature 1: Find an item by it's number in the list
+  b) Feature 2: Update item's priority
+  c) Feature 3: Add priority to all item types
 
 # REFLECTIONS
 # -------------------------------------------------------
 1. How long did you spend working on this project?
+  – About 3-4 hours.
+
 2. What was the most rewarding challenge you conquered?
+  – It took me some time to get the idea about using modules, it can be confusing at first :)
+
 3. What two additional features did you build? Why?
+  – I added a method to find an item in a list and I created this because I thought I'm going to need it for the feature I had in mind which being able to update priority, but after finishing it I realized that I won't be needing it, and I did the update priority feature because it was one of the features listed by you guys :) my final and third feature, which is 'Add priority to all item types' I added it because it made implementing my 2nd feature easier.
+
 4. Where do you still have room to grow?
+  – I'm not sure, I think with each project I finish I learn new things and grow a bit more, so keep 'em coming ;)

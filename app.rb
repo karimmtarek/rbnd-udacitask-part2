@@ -28,7 +28,7 @@ new_list.add("todo", "Go dancing", due: "in 2 hours")
 new_list.add("todo", "Buy groceries", priority: "high")
 new_list.add("event", "Birthday Party", start_date: "May 31")
 new_list.add("event", "Vacation", start_date: "Dec 20", end_date: "Dec 30")
-new_list.add("event", "Life happens", priority: "high")
+new_list.add("event", "Life happens")
 new_list.add("link", "https://www.udacity.com/", site_name: "Udacity Homepage")
 new_list.add("link", "http://ruby-doc.org")
 
@@ -46,8 +46,9 @@ new_list.all
 # ------------------------
 new_list.filter("event")
 
-
-# NEW FEATURES
+################
+# NEW FEATURES #
+################
 puts ''
 puts '-> NEW FEATURES <-'
 puts ''
@@ -58,3 +59,14 @@ puts ''
 puts "FEATURE #2: Update item's priority"
 new_list.update_priority(item_number: 3, priority: "low")
 new_list.find(item_number: 3)
+
+puts ''
+puts "FEATURE #3: Add priority to all item types"
+# update priority for existing event
+new_list.update_priority(item_number: 6, priority: "low")
+
+#create a new event with priority
+new_list.add("event", "A new event with priority in it.", priority: "high")
+
+# list event items to show changes
+new_list.filter("event")
